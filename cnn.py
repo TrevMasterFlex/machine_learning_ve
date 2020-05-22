@@ -42,8 +42,8 @@ width, height = im.size
 classifier = Sequential()
 
 # Convolution
-# Make 32 feature detectors with a size of 3x3   CHANGE 32!!!!!
-# Choose the input-image's format to be 500x500 with 3 channels
+# Make 32 feature detectors with a size of 3x3
+# Choose the input-image's format to be 250x250 with 3 channels
 classifier.add(Conv2D(filters, (3, 3), input_shape=(width, height, 3), activation="relu"))
 
 # Pooling
