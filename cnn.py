@@ -9,6 +9,16 @@ from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 
+# Function to predict the classification of an image
+def predict_classification(img_path):
+    test_image = image.load_img(img_path, target_size = (width, height))
+    test_image = image.img_to_array(test_image)
+    test_image = np.expand_dims(test_image, axis = 0)
+    result = classifier.predict(test_image)
+    for i in range(number_of_classifications):
+        if result[0][i]:
+            return classifications[i]
+
 # Parameters
 epochs = 1
 filters = 9
@@ -53,7 +63,7 @@ classifier.add(Dense(activation="softmax", units=number_of_classifications))
 classifier.compile(optimizer = 'rmsprop', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 # Color values within each pixel of the image are between 0 and 255
-# We need to rescale this to between 0 and 1
+# These color values need to be rescaled between 0 and 1
 train_datagen = ImageDataGenerator(rescale = 1./255, shear_range = shear_range, zoom_range = zoom_range, horizontal_flip = True)
 validation_datagen = ImageDataGenerator(rescale = 1./255)
 
@@ -66,36 +76,21 @@ validation_data = validation_datagen.flow_from_directory('validation_set', targe
 # Computation
 classifier.fit_generator(training_data, steps_per_epoch = (steps_per_epoch_numerator / batch_size), epochs = epochs, validation_data = validation_data, validation_steps = validation_steps)
 
-# Make predictions using the thus far unused test set to evaluate the model's performance
-test_image = image.load_img('test_set/sparrow/Baird_Sparrow_0002_2537220789.jpg', target_size = (width, height))
-test_image = image.img_to_array(test_image)
-test_image = np.expand_dims(test_image, axis = 0)
-result = classifier.predict(test_image)
-print(result)
-
-def predict_classification(img_path):
-    test_image = image.load_img(img_path, target_size = (width, height))
-    test_image = image.img_to_array(test_image)
-    test_image = np.expand_dims(test_image, axis = 0)
-    result = classifier.predict(test_image)
-    for i in range(number_of_classifications):
-        if result[0][i]: #==1
-            return classifications[i]
-
+# Make predictions using the, thus far unused, test set to evaluate the model's performance
+total_successes = 0
+total_number_of_images = 0
 for classification in classifications:
+    successes = 0
+    classification_dir = test_path + classification
+    classification_files = os.listdir(classification_dir)
+    number_of_files = len(classification_files)
+    for file_name in classification_files:
+        total_number_of_images += 1
+        img_path = classification_dir + "/" + file_name
+        prediction = predict_classification(img_path)
+        if prediction == classification:
+            successes += 1
+            total_successes +=1
+    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s")
 
-
-
-
-
-# # Training data class indices
-# if result[0][0] == 1:
-#     prediction = 'sparrow'
-# elif result[0][1] == 1:
-#     prediction = 'vireo'
-# elif result[0][2] == 1:
-#     prediction = 'warbler'
-# elif result[0][3] == 1:
-#     prediction = 'wren'
-
-# print(prediction)
+print("The model had an overall successful classification rate of " + str(total_successes*100/total_number_of_images) + "%")
