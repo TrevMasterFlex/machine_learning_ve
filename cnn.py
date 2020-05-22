@@ -11,12 +11,13 @@ from keras.preprocessing.image import ImageDataGenerator
 
 # Function to predict the classification of an image
 def predict_classification(img_path):
+    classifications2 = ['sparrow', 'warbler', 'vireo', 'wren']
     test_image = image.load_img(img_path, target_size = (width, height))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis = 0)
     result = classifier.predict(test_image)
     for i in range(number_of_classifications):
-        if result[0][i]:
+        if result[0][i] == 1:
             return classifications[i]
 
 # Parameters
@@ -88,9 +89,11 @@ for classification in classifications:
         total_number_of_images += 1
         img_path = classification_dir + "/" + file_name
         prediction = predict_classification(img_path)
+        print(prediction)
+        print(classification)
         if prediction == classification:
             successes += 1
             total_successes +=1
-    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s (" + str(successes/number_of_files) + "%)")
+    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s (" + str(successes*100/number_of_files) + "%)")
 
 print("The model had an overall successful classification rate of " + str(total_successes*100/total_number_of_images) + "%")
