@@ -21,10 +21,10 @@ def predict_classification(img_path):
 
 # Parameters
 epochs = 1
-filters = 9
+filters = 1 #9
 batch_size = 32
-validation_steps = 2000
-steps_per_epoch_numerator = 8000
+validation_steps = 2 #2000
+steps_per_epoch_numerator = 8 #8000
 shear_range = .2
 zoom_range = .2
 
@@ -91,6 +91,6 @@ for classification in classifications:
         if prediction == classification:
             successes += 1
             total_successes +=1
-    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s")
+    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s (" + str(successes/number_of_files) + "%)")
 
 print("The model had an overall successful classification rate of " + str(total_successes*100/total_number_of_images) + "%")

@@ -23,8 +23,8 @@ if sum(data_set["percent"] for data_set in data_sets) != 1:
 # Iterate over the data sets, creating four classification folders within each (wren, warbler, vireo, and sparrow)
 for data_set in data_sets:
 	data_type_dir_name = data_set["dir"]
-	# if os.path.isdir(data_type_dir_name):
-	shutil.rmtree(data_type_dir_name)
+	if os.path.isdir(data_type_dir_name):
+		shutil.rmtree(data_type_dir_name)
 	os.mkdir(data_type_dir_name)
 	for classification in classifications:
 		class_folder = data_type_dir_name + "/" + classification
