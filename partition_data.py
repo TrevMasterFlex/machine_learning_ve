@@ -10,6 +10,9 @@ import shutil
 import random
 from PIL import Image, ImageOps
 
+# What to shrink the image size to
+downsize = 250, 250
+
 # Data partition percentages
 data_sets = [{"dir": "training_set/", "percent": .6}, {"dir": "validation_set/", "percent": .2}, {"dir": "test_set/", "percent": .2}]
 
@@ -104,6 +107,8 @@ for class_directory in os.listdir(img_dir):
 				padding = (delta_width//2, delta_height//2, delta_width-(delta_width//2), delta_height-(delta_height//2))
 				# Apply the padding
 				padded_img = ImageOps.expand(img, padding)
+				# Downsize image
+				padded_img.thumbnail(downsize, Image.ANTIALIAS)
 				# Save the image
 				padded_img.save(data_set["dir"] + classification + "/" + file_name)
 		else:

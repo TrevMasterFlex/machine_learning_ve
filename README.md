@@ -2,11 +2,12 @@
 
 Data pre-processing:
 Data is taken from the Caltech-UCSD Birds 200 dataset.
-The partition_data.py program does 4 things:
+The partition_data.py program does 6 things:
 - Directory creation (for the cnn)
 - Filtering (based on four classifications: wren, warbler, vireo, and sparrow)
 - Resizing images (to standardize them)
 - Padding images
+- Downsizing images
 - Copying them to the created data structure from the Caltech-UCSD Birds 200 dataset
 It first sets up folders to house data in a form the cnn can use. 
 This includes a folder for training, validation, and testing.
@@ -18,4 +19,8 @@ Once a candidate image passes this filtering process it is resized to the larges
 If, after this resizing, it still does not conform to the standardized maximum dimension, the shorter dimension is then padded.
 
 Network Architecture:
-A cnn, or convolutional neural network was chosen for this project's network architecture. They are commonly used for analyzing visual imagery and image classification. Examples of their application include self driving cars and facebook's photo tagging. They are also a fast and efficient solution for image classification.
+A cnn, or convolutional neural network was chosen for this project's network architecture. 
+They are commonly used for analyzing visual imagery and image classification. 
+Examples of their application include self driving cars and facebook's photo tagging. 
+They are also a fast and efficient solution for image classification. 
+The CNN has Convolutional layers, ReLu layers, Pooling layers, and a Fully connected layer.
