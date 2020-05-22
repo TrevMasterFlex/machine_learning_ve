@@ -20,11 +20,11 @@ def predict_classification(img_path):
             return classifications[i]
 
 # Parameters
-epochs = 1
-filters = 1 #9
+epochs = 5
+filters = 9
 batch_size = 32
-validation_steps = 2 #2000
-steps_per_epoch_numerator = 8 #8000
+validation_steps = 2000
+steps_per_epoch_numerator = 8000
 shear_range = .2
 zoom_range = .2
 
