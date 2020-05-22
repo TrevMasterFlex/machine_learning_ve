@@ -37,7 +37,7 @@ Next steps:
 This project can be extended in a number of ways. All of the parameters that make up the fitting of the model and even the meta structure of the project itself (train, validate, test split for example) can be iteratively tweaked via grid search.
 
 Summary:
-
+loss: 0.0447 - accuracy: 0.9875 - val_loss: 5.1212 - val_accuracy: 0.5935
 
 Suggestions:
 I would suggest Bird Trackr either collect more bird image data or look into synthetic data. Synthetic data is a great tool to supplement any machine learning pipeline. It often takes pre-existing data and alters it (while preserving the object of interest) to create additional data from which to better inform the model. Companies like ai.reverie specialise in this.
