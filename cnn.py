@@ -20,7 +20,7 @@ def predict_classification(img_path):
             return classifications[i]
 
 # Parameters
-epochs = 5
+epochs = 25
 filters = 9
 batch_size = 32
 validation_steps = 2000
