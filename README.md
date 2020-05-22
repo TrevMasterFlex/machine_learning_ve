@@ -17,5 +17,5 @@ The filtering process looks for instances of these bird types within the Caltech
 Once a candidate image passes this filtering process it is resized to the largest dimension among all images of interest, while retaining its aspect ratio.
 If, after this resizing, it still does not conform to the standardized maximum dimension, the shorter dimension is then padded.
 
-Neural Net Architecture:
-A cnn, or convolutional neural network was chosen to
+Network Architecture:
+A cnn, or convolutional neural network was chosen for this project's network architecture. They are commonly used for analyzing visual imagery and image classification. Examples of their application include self driving cars and facebook's photo tagging. They are also a fast and efficient solution for image classification.
