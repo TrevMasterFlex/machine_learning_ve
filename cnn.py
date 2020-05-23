@@ -29,6 +29,7 @@ zoom_range = .2
 training_path = "training_set/"
 validation_path = "validation_set/"
 test_path = "test_set/"
+
 training_imgs = sum([len(files) for r, d, files in os.walk(training_path)])
 validation_imgs = sum([len(files) for r, d, files in os.walk(validation_path)])
 steps_per_epoch = training_imgs/batch_size
