@@ -11,7 +11,9 @@ import random
 from PIL import Image, ImageOps
 
 # What to shrink the image size to
-downsize = 275, 275
+downsize = 128, 128
+
+img_dir = 'images/'
 
 # Data partition percentages
 data_sets = [{"dir": "training_set/", "percent": .6}, {"dir": "validation_set/", "percent": .2}, {"dir": "test_set/", "percent": .2}]
@@ -35,7 +37,6 @@ for data_set in data_sets:
 			os.mkdir(class_folder)
 
 # Get the max width and height among the images of interest
-img_dir = 'images/'
 max_height = 0
 max_width = 0
 

@@ -37,7 +37,11 @@ Next steps:
 This project can be extended in a number of ways. All of the parameters that make up the fitting of the model and even the meta structure of the project itself (train, validate, test split for example) can be iteratively tweaked via grid search.
 
 Summary:
-
+The model correctly classified 107 out of 132 sparrows (81.06%)
+The model correctly classified 4 out of 47 vireos (8.51%)
+The model correctly classified 113 out of 147 warblers (76.87%)
+The model correctly classified 11 out of 46 wrens (23.91%)
+The model had an overall successful classification rate of 63.17%
 
 Suggestions:
 I would suggest Bird Trackr either collect more bird image data or look into synthetic data. Synthetic data is a great tool to supplement any machine learning pipeline. It often takes pre-existing data and alters it (while preserving the object of interest) to create additional data from which to better inform the model. Companies like ai.reverie specialise in this.

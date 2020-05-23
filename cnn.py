@@ -20,7 +20,8 @@ def predict_classification(img_path):
             return classifications[i]
 
 # Parameters
-epochs = 200
+epochs = 50
+kernel_size = 3
 filters = 32
 batch_size = 32
 shear_range = .2
@@ -50,19 +51,13 @@ classifier = Sequential()
 # Convolution
 # Make 32 feature detectors with a size of 3x3
 # Choose the input-image's format to be 250x250 with 3 channels
-classifier.add(Conv2D(filters, (3, 3), input_shape=(width, height, 3), activation="relu"))
+classifier.add(Conv2D(filters, (kernel_size, kernel_size), input_shape=(width, height, 3), activation="relu"))
 
 # Pooling
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
-# Adding 4 more convolutional layers
-classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
-classifier.add(MaxPooling2D(pool_size = (2, 2)))
-classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
-classifier.add(MaxPooling2D(pool_size = (2, 2)))
-classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
-classifier.add(MaxPooling2D(pool_size = (2, 2)))
-classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
+# Adding a second convolutional layer
+classifier.add(Conv2D(filters, (kernel_size, kernel_size), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Flattening
@@ -103,6 +98,6 @@ for classification in classifications:
         if prediction == classification:
             successes += 1
             total_successes +=1
-    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s (" + str(successes*100/number_of_files) + "%)")
+    print("The model correctly classified " + str(successes) + " out of " + str(number_of_files) + " " + classification + "s (" + str(round(successes*100/number_of_files, 2)) + "%)")
 
-print("The model had an overall successful classification rate of " + str(total_successes*100/total_number_of_images) + "%")
+print("The model had an overall successful classification rate of " + str(round(total_successes*100/total_number_of_images, 2)) + "%")
