@@ -5,34 +5,38 @@ import os
 import numpy as np
 from PIL import Image
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Activation, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 
 # Function to predict the classification of an image
 def predict_classification(img_path):
-    classifications2 = ['sparrow', 'vireo', 'warbler', 'wren']
     test_image = image.load_img(img_path, target_size = (width, height))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis = 0)
     result = classifier.predict(test_image)
     for i in range(number_of_classifications):
         if result[0][i] == 1:
-            return classifications2[i]
+            return classifications[i]
 
 # Parameters
-epochs = 50
+epochs = 200
 filters = 32
 batch_size = 32
-validation_steps = 4000
-steps_per_epoch_numerator = 16000
 shear_range = .2
 zoom_range = .2
 
+training_path = "training_set/"
+validation_path = "validation_set/"
 test_path = "test_set/"
-
+training_imgs = sum([len(files) for r, d, files in os.walk(training_path)])
+validation_imgs = sum([len(files) for r, d, files in os.walk(validation_path)])
+steps_per_epoch = training_imgs/batch_size
+validation_steps = validation_imgs/batch_size
 classifications = [classification for classification in os.listdir(test_path) if not classification.startswith('.')]
+classifications.sort()
 number_of_classifications = len(classifications)
+
 # Get the standardized width and height
 first_class_test_path = test_path + classifications[0]
 file_path = first_class_test_path + "/" + os.listdir(first_class_test_path)[0]
@@ -50,7 +54,13 @@ classifier.add(Conv2D(filters, (3, 3), input_shape=(width, height, 3), activatio
 # Pooling
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
-# Adding a second convolutional layer
+# Adding 4 more convolutional layers
+classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))
+classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))
+classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))
 classifier.add(Conv2D(filters, (3, 3), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
@@ -75,7 +85,7 @@ training_data = train_datagen.flow_from_directory('training_set', target_size = 
 validation_data = validation_datagen.flow_from_directory('validation_set', target_size = (width, height), batch_size = batch_size, class_mode = 'categorical')
 
 # Computation
-classifier.fit_generator(training_data, steps_per_epoch = (steps_per_epoch_numerator / batch_size), epochs = epochs, validation_data = validation_data, validation_steps = validation_steps)
+classifier.fit_generator(training_data, steps_per_epoch = (steps_per_epoch), epochs = epochs, validation_data = validation_data, validation_steps = validation_steps)
 
 # Make predictions using the, thus far unused, test set to evaluate the model's performance
 total_successes = 0
@@ -89,8 +99,6 @@ for classification in classifications:
         total_number_of_images += 1
         img_path = classification_dir + "/" + file_name
         prediction = predict_classification(img_path)
-        print(prediction)
-        print(classification)
         if prediction == classification:
             successes += 1
             total_successes +=1

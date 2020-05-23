@@ -11,7 +11,7 @@ import random
 from PIL import Image, ImageOps
 
 # What to shrink the image size to
-downsize = 128, 128
+downsize = 275, 275
 
 # Data partition percentages
 data_sets = [{"dir": "training_set/", "percent": .6}, {"dir": "validation_set/", "percent": .2}, {"dir": "test_set/", "percent": .2}]
