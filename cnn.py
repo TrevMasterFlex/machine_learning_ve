@@ -5,27 +5,27 @@ import os
 import numpy as np
 from PIL import Image
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Activation, Dropout
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 
 # Function to predict the classification of an image
 def predict_classification(img_path):
-    classifications2 = ['sparrow', 'warbler', 'vireo', 'wren']
+    classifications2 = ['sparrow', 'vireo', 'warbler', 'wren']
     test_image = image.load_img(img_path, target_size = (width, height))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis = 0)
     result = classifier.predict(test_image)
     for i in range(number_of_classifications):
         if result[0][i] == 1:
-            return classifications[i]
+            return classifications2[i]
 
 # Parameters
-epochs = 25
+epochs = 50
 filters = 32
 batch_size = 32
-validation_steps = 2000
-steps_per_epoch_numerator = 8000
+validation_steps = 4000
+steps_per_epoch_numerator = 16000
 shear_range = .2
 zoom_range = .2
 
